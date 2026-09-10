@@ -1,0 +1,30 @@
+name: Picks diarios
+
+on:
+  # Ejecutar todos los días a las 12:00 UTC = 07:00 hora Colombia
+  schedule:
+    - cron: '0 12 * * *'
+  # También permite ejecutarlo manualmente desde GitHub
+  workflow_dispatch:
+
+jobs:
+  ejecutar-skill:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: |
+          pip install requests beautifulsoup4 pandas openpyxl xlrd
+
+      - name: Ejecutar el script
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python skill_creator.py
