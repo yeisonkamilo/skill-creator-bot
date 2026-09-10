@@ -359,11 +359,11 @@ def _download_tennis_data(year: int, circuit: str = "atp") -> list[dict] | None:
         url = base + ext
         try:
             r = requests.get(url, headers=_HTTP_HEADERS, timeout=30)
-print(f"[DEBUG] tennis-data {year}{ext}: status={r.status_code} "
-      f"content_type={r.headers.get('Content-Type')} "
-      f"len={len(r.content)}")
-if r.status_code != 200:
-    continue
+            print(f"[DEBUG] tennis-data {year}{ext}: status={r.status_code} "
+                  f"content_type={r.headers.get('Content-Type')} "
+                  f"len={len(r.content)}")
+            if r.status_code != 200:
+                continue
 
             if ext == ".csv":
                 text = r.text
